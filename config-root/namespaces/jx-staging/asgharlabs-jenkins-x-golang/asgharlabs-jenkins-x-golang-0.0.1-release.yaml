@@ -1,0 +1,50 @@
+# Source: asgharlabs-jenkins-x-golang/templates/release.yaml
+apiVersion: jenkins.io/v1
+kind: Release
+metadata:
+  creationTimestamp: "2020-10-27T17:05:27Z"
+  deletionTimestamp: null
+  name: 'asgharlabs-jenkins-x-golang-0.0.1'
+  namespace: jx-staging
+  labels:
+    gitops.jenkins-x.io/pipeline: 'namespaces'
+spec:
+  commits:
+    - author:
+        accountReference:
+          - provider: jenkins.io/git-github-userid
+        email: jenkins-x@googlegroups.com
+        name: jjasghar
+      branch: master
+      committer:
+        accountReference:
+          - id: jjasghar-0
+            provider: jenkins.io/git-github-userid
+        email: jenkins-x@googlegroups.com
+        name: jjasghar
+      message: |
+        release 0.0.1
+      sha: ec78c0cb2d2ed3b5f8d4507e3bb224578705424e
+    - author:
+        accountReference:
+          - provider: jenkins.io/git-github-userid
+        email: jjasghar@gmail.com
+        name: JJ Asghar
+      branch: master
+      committer:
+        accountReference:
+          - id: jj-asghar-0
+            provider: jenkins.io/git-github-userid
+        email: jjasghar@gmail.com
+        name: JJ Asghar
+      message: |
+        Jenkins X build pack
+      sha: 9cbf7072df9b4bc54c150f422c39b753e6725e73
+  gitCloneUrl: https://github.com/jjasghar/asgharlabs-jenkins-x-golang.git
+  gitHttpUrl: https://github.com/jjasghar/asgharlabs-jenkins-x-golang
+  gitOwner: jjasghar
+  gitRepository: asgharlabs-jenkins-x-golang
+  name: 'asgharlabs-jenkins-x-golang'
+  releaseNotesURL: https://github.com/jjasghar/asgharlabs-jenkins-x-golang/releases/tag/v0.0.1
+  version: v0.0.1
+status: {}
