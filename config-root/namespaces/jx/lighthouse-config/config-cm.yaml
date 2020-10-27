@@ -8,6 +8,7 @@ data:
     in_repo_config:
       enabled:
         jjasghar/asgharlabs-jenkins-x: true
+        jjasghar/asgharlabs-jenkins-x-golang: true
     plank: {}
     pod_namespace: jx
     prowjob_namespace: jx
@@ -20,6 +21,7 @@ data:
         skip-unknown-contexts: false
       merge_method:
         jjasghar/asgharlabs-jenkins-x: merge
+        jjasghar/asgharlabs-jenkins-x-golang: merge
       queries:
       - labels:
         - approved
@@ -31,6 +33,7 @@ data:
         - needs-rebase
         repos:
         - jjasghar/asgharlabs-jenkins-x
+        - jjasghar/asgharlabs-jenkins-x-golang
       - labels:
         - updatebot
         missingLabels:
@@ -41,6 +44,7 @@ data:
         - needs-rebase
         repos:
         - jjasghar/asgharlabs-jenkins-x
+        - jjasghar/asgharlabs-jenkins-x-golang
       target_url: http://dashboard-jx.k8sasgharlabsio-706821-0e3e0ef4c9c6d831e8aa6fe01f33bfc4-0000.us-south.containers.appdomain.cloud
 kind: ConfigMap
 metadata:
