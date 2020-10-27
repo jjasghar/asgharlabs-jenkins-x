@@ -1,0 +1,56 @@
+# Source: asgharlabs-jenkins-x-golang/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asgharlabs-jenkins-x-golang-asgharlabs-jenkins-x-golang
+  labels:
+    draft: draft-app
+    chart: "asgharlabs-jenkins-x-golang-0.0.1"
+    gitops.jenkins-x.io/pipeline: 'namespaces'
+  namespace: jx-staging
+  annotations:
+    wave.pusher.com/update-on-config-change: 'true'
+spec:
+  selector:
+    matchLabels:
+      app: asgharlabs-jenkins-x-golang-asgharlabs-jenkins-x-golang
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        draft: draft-app
+        app: asgharlabs-jenkins-x-golang-asgharlabs-jenkins-x-golang
+    spec:
+      containers:
+        - name: asgharlabs-jenkins-x-golang
+          image: "172.21.219.195/jjasghar/asgharlabs-jenkins-x-golang:0.0.1"
+          imagePullPolicy: IfNotPresent
+          env:
+          envFrom: null
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 400m
+              memory: 256Mi
+            requests:
+              cpu: 200m
+              memory: 128Mi
+      terminationGracePeriodSeconds:
+      imagePullSecrets:
+        - name: "tekton-container-registry-auth"
