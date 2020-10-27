@@ -1,0 +1,22 @@
+# Source: docker-registry/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: docker-registry
+  labels:
+    app: docker-registry
+    chart: docker-registry-1.9.4
+    release: docker-registry
+    heritage: Helm
+    gitops.jenkins-x.io/pipeline: 'namespaces'
+  annotations:
+  namespace: jx
+spec:
+  rules:
+    - host: docker-registry-jx.k8sasgharlabsio-706821-0e3e0ef4c9c6d831e8aa6fe01f33bfc4-0000.us-south.containers.appdomain.cloud
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: docker-registry
+              servicePort: 80

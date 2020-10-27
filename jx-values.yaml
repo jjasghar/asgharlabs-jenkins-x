@@ -28,6 +28,8 @@ jxRequirements:
         enabled: false
         production: false
     key: dev
+    owner: jjasghar
+    repository: asgharlabs-jenkins-x
   - ingress:
       domain: ""
       externalDNS: false
@@ -48,7 +50,7 @@ jxRequirements:
     key: production
   gitops: true
   ingress:
-    domain: ""
+    domain: k8sasgharlabsio-706821-0e3e0ef4c9c6d831e8aa6fe01f33bfc4-0000.us-south.containers.appdomain.cloud
     externalDNS: false
     namespaceSubDomain: -jx.
     tls:
@@ -56,6 +58,8 @@ jxRequirements:
       enabled: false
       production: false
   kaniko: true
+  pipelineUser:
+    username: jjasghar
   repository: bucketrepo
   secretStorage: vault
   storage:

@@ -1,0 +1,84 @@
+# Source: lighthouse/templates/webhooks-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lighthouse-webhooks
+  labels:
+    draft: draft-app
+    chart: "lighthouse-0.0.860"
+    app: lighthouse-webhooks
+    gitops.jenkins-x.io/pipeline: 'namespaces'
+  annotations:
+    checksum/config: 7c84c0eb212c4425a4fd39fe148370728bfe867b66c649412fd4eb7dca0fed61
+    wave.pusher.com/update-on-config-change: 'true'
+    jenkins-x.io/hash: 'a55511961f1425e5bf92db8e590340b24ce77e72192ac28dbe187426be883c1d'
+  namespace: jx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      draft: draft-app
+      app: lighthouse-webhooks
+  template:
+    metadata:
+      labels:
+        draft: draft-app
+        app: lighthouse-webhooks
+    spec:
+      serviceAccountName: lighthouse-webhooks
+      containers:
+        - name: lighthouse-webhooks
+          image: gcr.io/jenkinsxio/lighthouse-webhooks:0.0.860
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--namespace=jx"
+          env:
+            - name: "GIT_KIND"
+              value: "github"
+            - name: "GIT_SERVER"
+              value: "https://github.com"
+            - name: "GIT_USER"
+              value: jjasghar
+            - name: "GIT_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: lighthouse-oauth-token
+                  key: oauth
+            - name: "HMAC_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: "lighthouse-hmac-token"
+                  key: hmac
+            - name: "JX_LOG_FORMAT"
+              value: "json"
+            - name: "LOGRUS_FORMAT"
+              value: "json"
+            - name: JX_DEFAULT_IMAGE
+              value: "gcr.io/jenkinsxio/builder-maven:2.1.142-761"
+            - name: LIGHTHOUSE_DASHBOARD_TEMPLATE
+              value: "namespaces/{{ .Namespace }}/pipelineruns/{{ .PipelineRun }}"
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 100m
+              memory: 512Mi
+            requests:
+              cpu: 80m
+              memory: 128Mi
+      terminationGracePeriodSeconds: 180
